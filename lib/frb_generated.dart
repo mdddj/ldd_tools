@@ -4,6 +4,8 @@
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
 import 'api/image.dart';
+import 'api/printer.dart';
+import 'api/tspl.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'frb_generated.dart';
@@ -56,7 +58,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.1.0';
 
   @override
-  int get rustContentHash => 1637372018;
+  int get rustContentHash => 708269075;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -67,6 +69,9 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
+  Future<Uint8List> crateApiImageBitmapImageDownloadBmpImageTsplCommandData(
+      {required BitmapImage that, required (int, int) pos});
+
   Future<BitmapImage> crateApiImageLddCoverImageToLuma8(
       {required List<int> imageBuffer,
       int? width,
@@ -74,6 +79,61 @@ abstract class RustLibApi extends BaseApi {
       int? thresholdValue,
       LddThresholdType? thresholdType,
       LddImageFormat? imageFormat});
+
+  Future<Uint8List> crateApiPrinterDownloadBmpImageTsplCommandData(
+      {required List<int> imageBuffer, required int x, required int y});
+
+  Future<Uint8List> crateApiPrinterTsplPrintCommandData();
+
+  Future<void> crateApiTsplTsplCommandBuildAppendBmpImage(
+      {required TsplCommandBuild that,
+      required BitmapImage image,
+      required (int, int) pos});
+
+  void crateApiTsplTsplCommandBuildAppendData(
+      {required TsplCommandBuild that, required List<int> data});
+
+  Uint8List crateApiTsplTsplCommandBuildBuild({required TsplCommandBuild that});
+
+  void crateApiTsplTsplCommandBuildCls({required TsplCommandBuild that});
+
+  void crateApiTsplTsplCommandBuildCodePage(
+      {required TsplCommandBuild that, required String n});
+
+  void crateApiTsplTsplCommandBuildCommand(
+      {required TsplCommandBuild that, required String command});
+
+  void crateApiTsplTsplCommandBuildDensity(
+      {required TsplCommandBuild that, required int n});
+
+  void crateApiTsplTsplCommandBuildGap(
+      {required TsplCommandBuild that, required int m, required int n});
+
+  TsplCommandBuild crateApiTsplTsplCommandBuildNew();
+
+  void crateApiTsplTsplCommandBuildOffset(
+      {required TsplCommandBuild that, required int m});
+
+  void crateApiTsplTsplCommandBuildPrinter(
+      {required TsplCommandBuild that, required (int, int) count});
+
+  void crateApiTsplTsplCommandBuildShift(
+      {required TsplCommandBuild that, required int y});
+
+  void crateApiTsplTsplCommandBuildSize(
+      {required TsplCommandBuild that, required (int, int) size});
+
+  void crateApiTsplTsplCommandBuildSpeed(
+      {required TsplCommandBuild that, required int n});
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_TsplCommandBuild;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_TsplCommandBuild;
+
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_TsplCommandBuildPtr;
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -83,6 +143,35 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     required super.generalizedFrbRustBinding,
     required super.portManager,
   });
+
+  @override
+  Future<Uint8List> crateApiImageBitmapImageDownloadBmpImageTsplCommandData(
+      {required BitmapImage that, required (int, int) pos}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_box_autoadd_bitmap_image(that, serializer);
+        sse_encode_box_autoadd_record_u_8_u_8(pos, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 1, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_prim_u_8_strict,
+        decodeErrorData: null,
+      ),
+      constMeta:
+          kCrateApiImageBitmapImageDownloadBmpImageTsplCommandDataConstMeta,
+      argValues: [that, pos],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta
+      get kCrateApiImageBitmapImageDownloadBmpImageTsplCommandDataConstMeta =>
+          const TaskConstMeta(
+            debugName: "bitmap_image_download_bmp_image_tspl_command_data",
+            argNames: ["that", "pos"],
+          );
 
   @override
   Future<BitmapImage> crateApiImageLddCoverImageToLuma8(
@@ -103,7 +192,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             thresholdType, serializer);
         sse_encode_opt_box_autoadd_ldd_image_format(imageFormat, serializer);
         pdeCallFfi(generalizedFrbRustBinding, serializer,
-            funcId: 1, port: port_);
+            funcId: 2, port: port_);
       },
       codec: SseCodec(
         decodeSuccessData: sse_decode_bitmap_image,
@@ -135,6 +224,473 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         ],
       );
 
+  @override
+  Future<Uint8List> crateApiPrinterDownloadBmpImageTsplCommandData(
+      {required List<int> imageBuffer, required int x, required int y}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_list_prim_u_8_loose(imageBuffer, serializer);
+        sse_encode_u_8(x, serializer);
+        sse_encode_u_8(y, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 3, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_prim_u_8_strict,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiPrinterDownloadBmpImageTsplCommandDataConstMeta,
+      argValues: [imageBuffer, x, y],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiPrinterDownloadBmpImageTsplCommandDataConstMeta =>
+      const TaskConstMeta(
+        debugName: "download_bmp_image_tspl_command_data",
+        argNames: ["imageBuffer", "x", "y"],
+      );
+
+  @override
+  Future<Uint8List> crateApiPrinterTsplPrintCommandData() {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 4, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_prim_u_8_strict,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiPrinterTsplPrintCommandDataConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiPrinterTsplPrintCommandDataConstMeta =>
+      const TaskConstMeta(
+        debugName: "tspl_print_command_data",
+        argNames: [],
+      );
+
+  @override
+  Future<void> crateApiTsplTsplCommandBuildAppendBmpImage(
+      {required TsplCommandBuild that,
+      required BitmapImage image,
+      required (int, int) pos}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+            that, serializer);
+        sse_encode_box_autoadd_bitmap_image(image, serializer);
+        sse_encode_box_autoadd_record_u_8_u_8(pos, serializer);
+        pdeCallFfi(generalizedFrbRustBinding, serializer,
+            funcId: 5, port: port_);
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTsplTsplCommandBuildAppendBmpImageConstMeta,
+      argValues: [that, image, pos],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTsplTsplCommandBuildAppendBmpImageConstMeta =>
+      const TaskConstMeta(
+        debugName: "TsplCommandBuild_append_bmp_image",
+        argNames: ["that", "image", "pos"],
+      );
+
+  @override
+  void crateApiTsplTsplCommandBuildAppendData(
+      {required TsplCommandBuild that, required List<int> data}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+            that, serializer);
+        sse_encode_list_prim_u_8_loose(data, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTsplTsplCommandBuildAppendDataConstMeta,
+      argValues: [that, data],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTsplTsplCommandBuildAppendDataConstMeta =>
+      const TaskConstMeta(
+        debugName: "TsplCommandBuild_append_data",
+        argNames: ["that", "data"],
+      );
+
+  @override
+  Uint8List crateApiTsplTsplCommandBuildBuild(
+      {required TsplCommandBuild that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_list_prim_u_8_strict,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTsplTsplCommandBuildBuildConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTsplTsplCommandBuildBuildConstMeta =>
+      const TaskConstMeta(
+        debugName: "TsplCommandBuild_build",
+        argNames: ["that"],
+      );
+
+  @override
+  void crateApiTsplTsplCommandBuildCls({required TsplCommandBuild that}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+            that, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTsplTsplCommandBuildClsConstMeta,
+      argValues: [that],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTsplTsplCommandBuildClsConstMeta =>
+      const TaskConstMeta(
+        debugName: "TsplCommandBuild_cls",
+        argNames: ["that"],
+      );
+
+  @override
+  void crateApiTsplTsplCommandBuildCodePage(
+      {required TsplCommandBuild that, required String n}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+            that, serializer);
+        sse_encode_String(n, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 9)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTsplTsplCommandBuildCodePageConstMeta,
+      argValues: [that, n],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTsplTsplCommandBuildCodePageConstMeta =>
+      const TaskConstMeta(
+        debugName: "TsplCommandBuild_code_page",
+        argNames: ["that", "n"],
+      );
+
+  @override
+  void crateApiTsplTsplCommandBuildCommand(
+      {required TsplCommandBuild that, required String command}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+            that, serializer);
+        sse_encode_String(command, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 10)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTsplTsplCommandBuildCommandConstMeta,
+      argValues: [that, command],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTsplTsplCommandBuildCommandConstMeta =>
+      const TaskConstMeta(
+        debugName: "TsplCommandBuild_command",
+        argNames: ["that", "command"],
+      );
+
+  @override
+  void crateApiTsplTsplCommandBuildDensity(
+      {required TsplCommandBuild that, required int n}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+            that, serializer);
+        sse_encode_u_8(n, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTsplTsplCommandBuildDensityConstMeta,
+      argValues: [that, n],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTsplTsplCommandBuildDensityConstMeta =>
+      const TaskConstMeta(
+        debugName: "TsplCommandBuild_density",
+        argNames: ["that", "n"],
+      );
+
+  @override
+  void crateApiTsplTsplCommandBuildGap(
+      {required TsplCommandBuild that, required int m, required int n}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+            that, serializer);
+        sse_encode_u_8(m, serializer);
+        sse_encode_u_8(n, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTsplTsplCommandBuildGapConstMeta,
+      argValues: [that, m, n],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTsplTsplCommandBuildGapConstMeta =>
+      const TaskConstMeta(
+        debugName: "TsplCommandBuild_gap",
+        argNames: ["that", "m", "n"],
+      );
+
+  @override
+  TsplCommandBuild crateApiTsplTsplCommandBuildNew() {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData:
+            sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTsplTsplCommandBuildNewConstMeta,
+      argValues: [],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTsplTsplCommandBuildNewConstMeta =>
+      const TaskConstMeta(
+        debugName: "TsplCommandBuild_new",
+        argNames: [],
+      );
+
+  @override
+  void crateApiTsplTsplCommandBuildOffset(
+      {required TsplCommandBuild that, required int m}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+            that, serializer);
+        sse_encode_u_8(m, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 14)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTsplTsplCommandBuildOffsetConstMeta,
+      argValues: [that, m],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTsplTsplCommandBuildOffsetConstMeta =>
+      const TaskConstMeta(
+        debugName: "TsplCommandBuild_offset",
+        argNames: ["that", "m"],
+      );
+
+  @override
+  void crateApiTsplTsplCommandBuildPrinter(
+      {required TsplCommandBuild that, required (int, int) count}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+            that, serializer);
+        sse_encode_box_autoadd_record_u_8_u_8(count, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 15)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTsplTsplCommandBuildPrinterConstMeta,
+      argValues: [that, count],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTsplTsplCommandBuildPrinterConstMeta =>
+      const TaskConstMeta(
+        debugName: "TsplCommandBuild_printer",
+        argNames: ["that", "count"],
+      );
+
+  @override
+  void crateApiTsplTsplCommandBuildShift(
+      {required TsplCommandBuild that, required int y}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+            that, serializer);
+        sse_encode_u_8(y, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 16)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTsplTsplCommandBuildShiftConstMeta,
+      argValues: [that, y],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTsplTsplCommandBuildShiftConstMeta =>
+      const TaskConstMeta(
+        debugName: "TsplCommandBuild_shift",
+        argNames: ["that", "y"],
+      );
+
+  @override
+  void crateApiTsplTsplCommandBuildSize(
+      {required TsplCommandBuild that, required (int, int) size}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+            that, serializer);
+        sse_encode_box_autoadd_record_u_8_u_8(size, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 17)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTsplTsplCommandBuildSizeConstMeta,
+      argValues: [that, size],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTsplTsplCommandBuildSizeConstMeta =>
+      const TaskConstMeta(
+        debugName: "TsplCommandBuild_size",
+        argNames: ["that", "size"],
+      );
+
+  @override
+  void crateApiTsplTsplCommandBuildSpeed(
+      {required TsplCommandBuild that, required int n}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        final serializer = SseSerializer(generalizedFrbRustBinding);
+        sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+            that, serializer);
+        sse_encode_u_8(n, serializer);
+        return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 18)!;
+      },
+      codec: SseCodec(
+        decodeSuccessData: sse_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kCrateApiTsplTsplCommandBuildSpeedConstMeta,
+      argValues: [that, n],
+      apiImpl: this,
+    ));
+  }
+
+  TaskConstMeta get kCrateApiTsplTsplCommandBuildSpeedConstMeta =>
+      const TaskConstMeta(
+        debugName: "TsplCommandBuild_speed",
+        argNames: ["that", "n"],
+      );
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_TsplCommandBuild => wire
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_TsplCommandBuild => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild;
+
+  @protected
+  TsplCommandBuild
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return TsplCommandBuildImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  TsplCommandBuild
+      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return TsplCommandBuildImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  TsplCommandBuild
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return TsplCommandBuildImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  String dco_decode_String(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as String;
+  }
+
   @protected
   BitmapImage dco_decode_bitmap_image(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -149,6 +705,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  BitmapImage dco_decode_box_autoadd_bitmap_image(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_bitmap_image(raw);
+  }
+
+  @protected
   LddImageFormat dco_decode_box_autoadd_ldd_image_format(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_ldd_image_format(raw);
@@ -158,6 +720,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   LddThresholdType dco_decode_box_autoadd_ldd_threshold_type(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_ldd_threshold_type(raw);
+  }
+
+  @protected
+  (int, int) dco_decode_box_autoadd_record_u_8_u_8(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw as (int, int);
   }
 
   @protected
@@ -227,6 +795,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  (int, int) dco_decode_record_u_8_u_8(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2) {
+      throw Exception('Expected 2 elements, got ${arr.length}');
+    }
+    return (
+      dco_decode_u_8(arr[0]),
+      dco_decode_u_8(arr[1]),
+    );
+  }
+
+  @protected
   int dco_decode_u_32(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as int;
@@ -245,6 +826,46 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  BigInt dco_decode_usize(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dcoDecodeU64(raw);
+  }
+
+  @protected
+  TsplCommandBuild
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return TsplCommandBuildImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  TsplCommandBuild
+      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return TsplCommandBuildImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  TsplCommandBuild
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return TsplCommandBuildImpl.frbInternalSseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  String sse_decode_String(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var inner = sse_decode_list_prim_u_8_strict(deserializer);
+    return utf8.decoder.convert(inner);
+  }
+
+  @protected
   BitmapImage sse_decode_bitmap_image(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_bitmap = sse_decode_list_prim_u_8_strict(deserializer);
@@ -252,6 +873,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_height = sse_decode_u_32(deserializer);
     return BitmapImage(
         bitmap: var_bitmap, width: var_width, height: var_height);
+  }
+
+  @protected
+  BitmapImage sse_decode_box_autoadd_bitmap_image(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_bitmap_image(deserializer));
   }
 
   @protected
@@ -266,6 +894,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_ldd_threshold_type(deserializer));
+  }
+
+  @protected
+  (int, int) sse_decode_box_autoadd_record_u_8_u_8(
+      SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_record_u_8_u_8(deserializer));
   }
 
   @protected
@@ -361,6 +996,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  (int, int) sse_decode_record_u_8_u_8(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_field0 = sse_decode_u_8(deserializer);
+    var var_field1 = sse_decode_u_8(deserializer);
+    return (var_field0, var_field1);
+  }
+
+  @protected
   int sse_decode_u_32(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint32();
@@ -378,9 +1021,51 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  BigInt sse_decode_usize(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return deserializer.buffer.getBigUint64();
+  }
+
+  @protected
   bool sse_decode_bool(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return deserializer.buffer.getUint8() != 0;
+  }
+
+  @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          TsplCommandBuild self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as TsplCommandBuildImpl).frbInternalSseEncode(move: true),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          TsplCommandBuild self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as TsplCommandBuildImpl).frbInternalSseEncode(move: false),
+        serializer);
+  }
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          TsplCommandBuild self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+        (self as TsplCommandBuildImpl).frbInternalSseEncode(move: null),
+        serializer);
+  }
+
+  @protected
+  void sse_encode_String(String self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_prim_u_8_strict(utf8.encoder.convert(self), serializer);
   }
 
   @protected
@@ -389,6 +1074,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_list_prim_u_8_strict(self.bitmap, serializer);
     sse_encode_u_32(self.width, serializer);
     sse_encode_u_32(self.height, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_bitmap_image(
+      BitmapImage self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bitmap_image(self, serializer);
   }
 
   @protected
@@ -403,6 +1095,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       LddThresholdType self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_ldd_threshold_type(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_record_u_8_u_8(
+      (int, int) self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_record_u_8_u_8(self, serializer);
   }
 
   @protected
@@ -497,6 +1196,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_record_u_8_u_8((int, int) self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_8(self.$1, serializer);
+    sse_encode_u_8(self.$2, serializer);
+  }
+
+  @protected
   void sse_encode_u_32(int self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint32(self);
@@ -514,8 +1220,99 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_usize(BigInt self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    serializer.buffer.putBigUint64(self);
+  }
+
+  @protected
   void sse_encode_bool(bool self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     serializer.buffer.putUint8(self ? 1 : 0);
   }
+}
+
+@sealed
+class TsplCommandBuildImpl extends RustOpaque implements TsplCommandBuild {
+  // Not to be used by end users
+  TsplCommandBuildImpl.frbInternalDcoDecode(List<dynamic> wire)
+      : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  TsplCommandBuildImpl.frbInternalSseDecode(
+      BigInt ptr, int externalSizeOnNative)
+      : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib.instance.api.rust_arc_increment_strong_count_TsplCommandBuild,
+    rustArcDecrementStrongCount:
+        RustLib.instance.api.rust_arc_decrement_strong_count_TsplCommandBuild,
+    rustArcDecrementStrongCountPtr: RustLib
+        .instance.api.rust_arc_decrement_strong_count_TsplCommandBuildPtr,
+  );
+
+  ///添加bmp图片
+  /// [`image`] bmp图片资源
+  /// [`pos`] x,y 位置
+  Future<void> appendBmpImage(
+          {required BitmapImage image, required (int, int) pos}) =>
+      RustLib.instance.api.crateApiTsplTsplCommandBuildAppendBmpImage(
+          that: this, image: image, pos: pos);
+
+  ///添加数据
+  void appendData({required List<int> data}) => RustLib.instance.api
+      .crateApiTsplTsplCommandBuildAppendData(that: this, data: data);
+
+  ///获取字节数据
+  Uint8List build() => RustLib.instance.api.crateApiTsplTsplCommandBuildBuild(
+        that: this,
+      );
+
+  ///清除画布缓存
+  /// 注意：该命令必须在SIZE命令之后
+  void cls() => RustLib.instance.api.crateApiTsplTsplCommandBuildCls(
+        that: this,
+      );
+
+  /// 设置代码页及国际字符集,推荐UTF-8
+  void codePage({required String n}) => RustLib.instance.api
+      .crateApiTsplTsplCommandBuildCodePage(that: this, n: n);
+
+  ///自定义命令
+  void command({required String command}) => RustLib.instance.api
+      .crateApiTsplTsplCommandBuildCommand(that: this, command: command);
+
+  ///设置浓度
+  void density({required int n}) => RustLib.instance.api
+      .crateApiTsplTsplCommandBuildDensity(that: this, n: n);
+
+  ///定义两张标签之间的缝宽。单位毫米mm
+  ///[`m`] 两个标签之间的距离
+  ///[`n`] 缝的偏移
+  ///0,0 连续纸
+  void gap({required int m, required int n}) => RustLib.instance.api
+      .crateApiTsplTsplCommandBuildGap(that: this, m: m, n: n);
+
+  ///定义每次标签定位时可选择的、额外的标签进纸高度。主要在撕纸或切纸模式下，用于调整标签停止位置，并在下次打印前回退响应的距离。
+  /// 单位: 毫米
+  void offset({required int m}) =>
+      RustLib.instance.api.crateApiTsplTsplCommandBuildOffset(that: this, m: m);
+
+  ///打印已缓存的标签。一般是(1,1)
+  /// [`count`] 打印标签的数量,1: 打印标签的组数 2: 每组标签打印的数量
+  void printer({required (int, int) count}) => RustLib.instance.api
+      .crateApiTsplTsplCommandBuildPrinter(that: this, count: count);
+
+  ///移动标签的横向和纵向位置。正数使标签往打印方向的相反方向移动，负数使标签往打印方向移动。
+  void shift({required int y}) =>
+      RustLib.instance.api.crateApiTsplTsplCommandBuildShift(that: this, y: y);
+
+  ///定义尺寸, 毫米类型
+  void size({required (int, int) size}) => RustLib.instance.api
+      .crateApiTsplTsplCommandBuildSize(that: this, size: size);
+
+  ///设置打印速度
+  void speed({required int n}) =>
+      RustLib.instance.api.crateApiTsplTsplCommandBuildSpeed(that: this, n: n);
 }

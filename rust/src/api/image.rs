@@ -2,6 +2,8 @@ use image::{ImageBuffer, ImageFormat, Luma};
 use imageproc::contrast::{threshold, ThresholdType};
 use std::io::Cursor;
 
+use super::printer::download_bmp_image_tspl_command_data;
+
 ///图片数据
 pub struct BitmapImage {
     pub bitmap: Vec<u8>,
@@ -75,6 +77,14 @@ impl From<LddImageFormat> for ImageFormat {
             LddImageFormat::Avif => ImageFormat::Avif,
             LddImageFormat::Qoi => ImageFormat::Qoi,
         }
+    }
+}
+
+impl BitmapImage {
+    ///转成打印机可识别的tspl命令数据
+    /// [`pos`] 打印的x,y位置
+    pub fn download_bmp_image_tspl_command_data(self, pos: (u8, u8)) -> Vec<u8> {
+        download_bmp_image_tspl_command_data(self.bitmap, pos.0, pos.1)
     }
 }
 

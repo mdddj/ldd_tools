@@ -7,6 +7,8 @@
 // ignore_for_file: argument_type_not_assignable
 
 import 'api/image.dart';
+import 'api/printer.dart';
+import 'api/tspl.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'frb_generated.dart';
@@ -20,14 +22,42 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     required super.portManager,
   });
 
+  CrossPlatformFinalizerArg
+      get rust_arc_decrement_strong_count_TsplCommandBuildPtr => wire
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild;
+
+  @protected
+  TsplCommandBuild
+      dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          dynamic raw);
+
+  @protected
+  TsplCommandBuild
+      dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          dynamic raw);
+
+  @protected
+  TsplCommandBuild
+      dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          dynamic raw);
+
+  @protected
+  String dco_decode_String(dynamic raw);
+
   @protected
   BitmapImage dco_decode_bitmap_image(dynamic raw);
+
+  @protected
+  BitmapImage dco_decode_box_autoadd_bitmap_image(dynamic raw);
 
   @protected
   LddImageFormat dco_decode_box_autoadd_ldd_image_format(dynamic raw);
 
   @protected
   LddThresholdType dco_decode_box_autoadd_ldd_threshold_type(dynamic raw);
+
+  @protected
+  (int, int) dco_decode_box_autoadd_record_u_8_u_8(dynamic raw);
 
   @protected
   int dco_decode_box_autoadd_u_32(dynamic raw);
@@ -63,6 +93,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int? dco_decode_opt_box_autoadd_u_8(dynamic raw);
 
   @protected
+  (int, int) dco_decode_record_u_8_u_8(dynamic raw);
+
+  @protected
   int dco_decode_u_32(dynamic raw);
 
   @protected
@@ -72,7 +105,31 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void dco_decode_unit(dynamic raw);
 
   @protected
+  BigInt dco_decode_usize(dynamic raw);
+
+  @protected
+  TsplCommandBuild
+      sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          SseDeserializer deserializer);
+
+  @protected
+  TsplCommandBuild
+      sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          SseDeserializer deserializer);
+
+  @protected
+  TsplCommandBuild
+      sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          SseDeserializer deserializer);
+
+  @protected
+  String sse_decode_String(SseDeserializer deserializer);
+
+  @protected
   BitmapImage sse_decode_bitmap_image(SseDeserializer deserializer);
+
+  @protected
+  BitmapImage sse_decode_box_autoadd_bitmap_image(SseDeserializer deserializer);
 
   @protected
   LddImageFormat sse_decode_box_autoadd_ldd_image_format(
@@ -80,6 +137,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   LddThresholdType sse_decode_box_autoadd_ldd_threshold_type(
+      SseDeserializer deserializer);
+
+  @protected
+  (int, int) sse_decode_box_autoadd_record_u_8_u_8(
       SseDeserializer deserializer);
 
   @protected
@@ -118,6 +179,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   int? sse_decode_opt_box_autoadd_u_8(SseDeserializer deserializer);
 
   @protected
+  (int, int) sse_decode_record_u_8_u_8(SseDeserializer deserializer);
+
+  @protected
   int sse_decode_u_32(SseDeserializer deserializer);
 
   @protected
@@ -127,10 +191,35 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_decode_unit(SseDeserializer deserializer);
 
   @protected
+  BigInt sse_decode_usize(SseDeserializer deserializer);
+
+  @protected
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
+  void
+      sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          TsplCommandBuild self, SseSerializer serializer);
+
+  @protected
+  void
+      sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          TsplCommandBuild self, SseSerializer serializer);
+
+  @protected
+  void
+      sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          TsplCommandBuild self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_String(String self, SseSerializer serializer);
+
+  @protected
   void sse_encode_bitmap_image(BitmapImage self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_bitmap_image(
+      BitmapImage self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_ldd_image_format(
@@ -139,6 +228,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_box_autoadd_ldd_threshold_type(
       LddThresholdType self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_record_u_8_u_8(
+      (int, int) self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_u_32(int self, SseSerializer serializer);
@@ -179,6 +272,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_opt_box_autoadd_u_8(int? self, SseSerializer serializer);
 
   @protected
+  void sse_encode_record_u_8_u_8((int, int) self, SseSerializer serializer);
+
+  @protected
   void sse_encode_u_32(int self, SseSerializer serializer);
 
   @protected
@@ -188,6 +284,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_unit(void self, SseSerializer serializer);
 
   @protected
+  void sse_encode_usize(BigInt self, SseSerializer serializer);
+
+  @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
 }
 
@@ -195,6 +294,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
 class RustLibWire implements BaseWire {
   RustLibWire.fromExternalLibrary(ExternalLibrary lib);
+
+  void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          int ptr) =>
+      wasmModule
+          .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+              ptr);
+
+  void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          int ptr) =>
+      wasmModule
+          .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+              ptr);
 }
 
 @JS('wasm_bindgen')
@@ -202,4 +313,12 @@ external RustLibWasmModule get wasmModule;
 
 @JS()
 @anonymous
-extension type RustLibWasmModule._(JSObject _) implements JSObject {}
+extension type RustLibWasmModule._(JSObject _) implements JSObject {
+  external void
+      rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          int ptr);
+
+  external void
+      rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTsplCommandBuild(
+          int ptr);
+}

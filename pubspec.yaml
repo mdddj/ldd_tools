@@ -1,6 +1,7 @@
 name: ldd_tools
 description: "ldd's collection of development tools, adding various functions from time to time"
-version: 0.0.1
+version: 0.0.2
+repository: "https://github.com/mdddj/ldd_tools"
 
 environment:
   sdk: '>=3.3.1 <4.0.0'

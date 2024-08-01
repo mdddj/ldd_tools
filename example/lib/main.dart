@@ -1,10 +1,13 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dd_js_util/dd_js_util.dart';
 import 'package:dd_js_util/model/models.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ldd_tools/api/image.dart';
+import 'package:ldd_tools/api/printer.dart';
+import 'package:ldd_tools/api/tspl.dart';
 import 'package:ldd_tools/ldd_tools.dart';
 
 void main() {
@@ -36,16 +39,28 @@ class _MyAppState extends State<MyApp> {
   ///转换图片
   Future<void> covertToImage(File file) async {
     try {
-      final bfs = await file!.readAsBytes();
+      final build = TsplCommandBuild();
+      build.size(size: (50, 50));
+      build.density(n: 3);
+      build.speed(n: 2);
+      build.shift(y: 0);
+      build.offset(m: 0);
+      build.gap(m: 3, n: 0);
+      build.codePage(n: "UTF-8");
+      build.cls();
+
+      final bfs = await file.readAsBytes();
       bitmapImage = await lddCoverImageToLuma8(
           imageBuffer: bfs,
           thresholdValue: 128,
-          width: 250,
-          height: 250,
+          width: 50,
+          height: 50,
           thresholdType: LddThresholdType.binary,
           imageFormat: LddImageFormat.bmp);
-      print(
-          "cover result :${bitmapImage!.bitmap.length} ${bitmapImage!.width} ${bitmapImage!.height}");
+      await build.appendBmpImage(image: bitmapImage!, pos: (0, 0));
+      build.printer(count: (0, 0));
+      final finalData = build.build();
+      print("data: ${finalData.toList()}");
       setState(() {});
     } catch (e) {
       print("err $e");

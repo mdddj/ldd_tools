@@ -43,6 +43,14 @@ class BitmapImage {
     required this.height,
   });
 
+  ///转成打印机可识别的tspl命令数据
+  /// [`pos`] 打印的x,y位置
+  Future<Uint8List> downloadBmpImageTsplCommandData(
+          {required (int, int) pos}) =>
+      RustLib.instance.api
+          .crateApiImageBitmapImageDownloadBmpImageTsplCommandData(
+              that: this, pos: pos);
+
   @override
   int get hashCode => bitmap.hashCode ^ width.hashCode ^ height.hashCode;
 
