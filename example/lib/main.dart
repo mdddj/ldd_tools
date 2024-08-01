@@ -1,9 +1,14 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
+import 'dart:io';
 
-import 'package:ldd_tools/ldd_tools.dart' as ldd_tools;
+import 'package:dd_js_util/dd_js_util.dart';
+import 'package:dd_js_util/model/models.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:ldd_tools/api/image.dart';
+import 'package:ldd_tools/ldd_tools.dart';
 
 void main() {
+  initLddToolLib();
   runApp(const MyApp());
 }
 
@@ -15,57 +20,73 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late int sumResult;
-  late Future<int> sumAsyncResult;
+  File? file;
+  BitmapImage? bitmapImage;
 
-  @override
-  void initState() {
-    super.initState();
-    sumResult = ldd_tools.sum(1, 2);
-    sumAsyncResult = ldd_tools.sumAsync(3, 4);
+  Future<void> selectFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      file = File(result.files.single.path!);
+      setState(() {});
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  ///转换图片
+  Future<void> covertToImage(File file) async {
+    try {
+      final bfs = await file!.readAsBytes();
+      bitmapImage = await lddCoverImageToLuma8(
+          imageBuffer: bfs,
+          thresholdValue: 128,
+          width: 250,
+          height: 250,
+          thresholdType: LddThresholdType.binary,
+          imageFormat: LddImageFormat.bmp);
+      print(
+          "cover result :${bitmapImage!.bitmap.length} ${bitmapImage!.width} ${bitmapImage!.height}");
+      setState(() {});
+    } catch (e) {
+      print("err $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    const textStyle = TextStyle(fontSize: 25);
-    const spacerSmall = SizedBox(height: 10);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Native Packages'),
+          title: const Text('工具'),
         ),
         body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                const Text(
-                  'This calls a native function through FFI that is shipped as source in the package. '
-                  'The native code is built as part of the Flutter Runner build.',
-                  style: textStyle,
-                  textAlign: TextAlign.center,
+          child: Column(
+            children: [
+              TextButton(onPressed: selectFile, child: const Text("选择一张图片")),
+              if (file != null) Text(file!.path),
+              if (file != null)
+                SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: Image.file(file!),
                 ),
-                spacerSmall,
+              const SizedBox(height: 12),
+              FilledButton(
+                  onPressed: file == null ? null : () => covertToImage(file!),
+                  child: const Text("图片转黑白单位色图")),
+              const SizedBox(height: 12),
+              if (bitmapImage != null)
+                Image.memory(
+                  bitmapImage!.bitmap,
+                  width: bitmapImage!.width.toDouble(),
+                  height: bitmapImage!.height.toDouble(),
+                ),
+              if (bitmapImage != null)
                 Text(
-                  'sum(1, 2) = $sumResult',
-                  style: textStyle,
-                  textAlign: TextAlign.center,
-                ),
-                spacerSmall,
-                FutureBuilder<int>(
-                  future: sumAsyncResult,
-                  builder: (BuildContext context, AsyncSnapshot<int> value) {
-                    final displayValue =
-                        (value.hasData) ? value.data : 'loading';
-                    return Text(
-                      'await sumAsync(3, 4) = $displayValue',
-                      style: textStyle,
-                      textAlign: TextAlign.center,
-                    );
-                  },
-                ),
-              ],
-            ),
+                  "转换后图像大小:${ByteModel.create(bitmapImage!.bitmap.length.toDouble()).format(2)}",
+                  style: context.textTheme.titleLarge,
+                )
+            ],
           ),
         ),
       ),
