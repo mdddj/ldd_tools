@@ -1,6 +1,6 @@
 name: ldd_tools
 description: "ldd's collection of development tools, adding various functions from time to time"
-version: 0.0.2
+version: 0.0.3
 repository: "https://github.com/mdddj/ldd_tools"
 
 environment:
@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
-  flutter_rust_bridge: ^2.1.0
+  flutter_rust_bridge: 2.2.0
 
 dev_dependencies:
   ffi: ^2.1.0
